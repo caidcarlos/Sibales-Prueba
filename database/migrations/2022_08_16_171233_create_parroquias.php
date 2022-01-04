@@ -1,0 +1,38 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+class CreateParroquias extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('parroquias', function (Blueprint $table) {
+            $table->id();
+            $table->string('nombre', 50);
+            $table->boolean('status');
+            $table->unsignedBigInteger('id_municipio');
+            $table->foreign('id_municipio')->references('id')->on('municipios');
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::table('parroquias', function (Blueprint $table){
+            $table->dropForeign(['id_municipio']);
+        });
+        Schema::dropIfExists('parroquias');
+    }
+}
